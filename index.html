@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智绘乡村 - AIGC赋能乡村儿童协同策展计划</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--earth:#8B6914;--earth-light:#C4A35A;--earth-dark:#5C4A1F;--green:#4A7C59;--green-light:#7CB342;--green-dark:#2D5A27;--blue:#2B6CB0;--cream:#FDF6E3;--cream-dark:#F5E6C8;--text:#2D2A26;--text-light:#6B5F52;--white:#fff}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans SC",sans-serif;color:var(--text);background:var(--cream);overflow-x:hidden}
+
+/* ===== NAV ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(253,246,227,0.97);backdrop-filter:blur(20px);border-bottom:2px solid var(--earth-light);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav-logo{display:flex;align-items:center;gap:14px}
+.nav-logo img{height:48px;width:auto;border-radius:8px}
+.nav-logo span{font-family:"Noto Serif SC",serif;font-size:20px;font-weight:700;color:var(--earth-dark);letter-spacing:2px}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{text-decoration:none;color:var(--text);font-size:14px;font-weight:500;letter-spacing:1px;transition:color .3s}
+.nav-links a:hover{color:var(--green)}
+.nav-toggle{display:none;cursor:pointer;font-size:28px}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,#0f2a1a 0%,#1e4d2b 40%,#3d2e14 100%);overflow:hidden;padding-top:72px}
+.hero-bg{position:absolute;inset:0;opacity:.15;background:url(images/micro-hero.png) center/cover no-repeat}
+.hero-pattern{position:absolute;inset:0;background-image:radial-gradient(circle at 15% 85%,rgba(196,163,90,.3) 0%,transparent 50%),radial-gradient(circle at 85% 15%,rgba(74,124,89,.3) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(43,108,176,.1) 0%,transparent 70%)}
+.hero-inner{position:relative;z-index:2;text-align:center;max-width:960px;padding:40px 24px}
+.hero-badge{display:inline-block;background:linear-gradient(135deg,var(--green),var(--green-light));color:white;padding:8px 24px;border-radius:30px;font-size:12px;font-weight:600;letter-spacing:3px;margin-bottom:28px;animation:fadeInDown 1s ease}
+.hero-title{font-family:"Noto Serif SC",serif;font-size:clamp(38px,7vw,76px);font-weight:900;color:white;line-height:1.2;margin-bottom:20px;text-shadow:0 4px 30px rgba(0,0,0,.3);animation:fadeInUp 1s ease .2s both}
+.hero-slogan{font-size:clamp(16px,2.5vw,22px);color:var(--earth-light);font-family:"Noto Serif SC",serif;margin-bottom:24px;letter-spacing:4px;animation:fadeInUp 1s ease .3s both}
+.hero-subtitle{font-size:clamp(14px,2vw,18px);color:rgba(255,255,255,.8);line-height:2;max-width:700px;margin:0 auto 36px;font-weight:300;animation:fadeInUp 1s ease .4s both}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeInUp 1s ease .6s both}
+.btn{padding:14px 36px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .3s;letter-spacing:1px;display:inline-block}
+.btn-primary{background:linear-gradient(135deg,var(--green),var(--green-light));color:white;border:none;box-shadow:0 4px 20px rgba(74,124,89,.4)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(74,124,89,.5)}
+.btn-outline{background:transparent;color:white;border:2px solid rgba(255,255,255,.5)}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:white}
+.hero-scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.35);font-size:12px;animation:bounce 2s infinite}
+.hero-scroll::after{content:"向下滚动"}
+
+/* ===== SECTIONS ===== */
+section{padding:100px 24px}
+.container{max-width:1200px;margin:0 auto}
+.section-label{text-align:center;font-size:11px;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px}
+.section-title{text-align:center;font-family:"Noto Serif SC",serif;font-size:clamp(28px,5vw,44px);font-weight:700;color:var(--earth-dark);margin-bottom:16px}
+.section-sub{text-align:center;color:var(--text-light);font-size:16px;max-width:640px;margin:0 auto 64px;line-height:1.8}
+
+/* ===== PAIN ===== */
+.pain-section{background:linear-gradient(180deg,#fff 0%,var(--cream) 100%)}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1100px;margin:0 auto}
+.pain-card{background:white;border-radius:24px;padding:40px 28px;text-align:center;box-shadow:0 4px 24px rgba(139,105,20,.08);transition:all .4s;border:2px solid transparent}
+.pain-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(139,105,20,.15);border-color:var(--earth-light)}
+.pain-icon{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:30px}
+.pain-card:nth-child(1) .pain-icon{background:rgba(196,163,90,.15)}
+.pain-card:nth-child(2) .pain-icon{background:rgba(74,124,89,.15)}
+.pain-card:nth-child(3) .pain-icon{background:rgba(43,108,176,.15)}
+.pain-card h3{font-family:"Noto Serif SC",serif;font-size:20px;font-weight:700;margin-bottom:12px;color:var(--earth-dark)}
+.pain-card p{font-size:14px;line-height:1.9;color:var(--text-light)}
+
+/* ===== SOLUTION ===== */
+.sol-section{background:var(--earth-dark);position:relative}
+.sol-section .section-title{color:white}
+.sol-section .section-sub{color:rgba(255,255,255,.55)}
+.sol-overview{background:rgba(255,255,255,.05);border-radius:24px;padding:48px;margin-bottom:56px;border:1px solid rgba(255,255,255,.08);max-width:1000px;margin-left:auto;margin-right:auto}
+.sol-overview h3{font-family:"Noto Serif SC",serif;font-size:26px;color:white;text-align:center;margin-bottom:16px}
+.sol-overview p{color:rgba(255,255,255,.7);line-height:2;font-size:16px;text-align:center}
+.stages{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stage-card{background:rgba(255,255,255,.06);border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.1);transition:all .4s;position:relative}
+.stage-card:hover{background:rgba(255,255,255,.1);transform:translateY(-4px)}
+.stage-num{position:absolute;top:14px;left:14px;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-light));color:white;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:2}
+.stage-card img{width:100%;height:200px;object-fit:cover;display:block}
+.stage-info{padding:24px 20px}
+.stage-info h4{font-family:"Noto Serif SC",serif;font-size:17px;color:white;margin-bottom:8px}
+.stage-info p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7}
+.timeline-img{margin-top:52px;text-align:center}
+.timeline-img img{max-width:100%;max-height:420px;border-radius:16px;box-shadow:0 8px 48px rgba(0,0,0,.4)}
+
+/* ===== PRODUCTS ===== */
+.prod-section{background:linear-gradient(180deg,var(--cream) 0%,#fff 100%)}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1100px;margin:0 auto}
+.prod-card{background:white;border-radius:24px;overflow:hidden;box-shadow:0 4px 24px rgba(139,105,20,.08);transition:all .4s;position:relative}
+.prod-card:hover{transform:translateY(-8px);box-shadow:0 16px 48px rgba(139,105,20,.15)}
+.prod-tag{position:absolute;top:16px;right:16px;background:var(--green);color:white;padding:5px 16px;border-radius:20px;font-size:11px;font-weight:700;z-index:3;letter-spacing:1px}
+.prod-tag.pop{background:linear-gradient(135deg,var(--earth),var(--earth-light))}
+.prod-img{width:100%;height:220px;object-fit:cover;display:block}
+.prod-info{padding:28px 24px}
+.prod-info h3{font-family:"Noto Serif SC",serif;font-size:21px;font-weight:700;margin-bottom:8px;color:var(--earth-dark)}
+.prod-info .desc{font-size:13px;color:var(--text-light);margin-bottom:16px;line-height:1.7}
+.prod-list{list-style:none}
+.prod-list li{padding:8px 0;font-size:13px;color:var(--text);border-bottom:1px solid var(--cream-dark);display:flex;align-items:center;gap:10px}
+.prod-list li::before{content:"\2713";color:var(--green);font-weight:700;font-size:12px;flex-shrink:0}
+.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:56px auto 0}
+.adv-card{padding:36px 28px;border-radius:20px;text-align:center;color:white;transition:all .3s}
+.adv-card:hover{transform:translateY(-4px)}
+.adv-card:nth-child(1){background:linear-gradient(135deg,var(--blue),#4299e1)}
+.adv-card:nth-child(2){background:linear-gradient(135deg,var(--green),var(--green-light))}
+.adv-card:nth-child(3){background:linear-gradient(135deg,var(--earth),var(--earth-light))}
+.adv-icon{font-size:38px;margin-bottom:14px}
+.adv-card h3{font-size:18px;margin-bottom:8px}
+.adv-card p{font-size:13px;opacity:.85;line-height:1.8}
+
+/* ===== DATA ===== */
+.data-section{background:linear-gradient(135deg,var(--green-dark) 0%,var(--earth-dark) 100%);position:relative;overflow:hidden}
+.data-section::before{content:"";position:absolute;inset:0;background:url(images/ecosystem.jpg) center/cover;opacity:.07}
+.data-section .section-title{color:white;position:relative;z-index:2}
+.data-section .section-sub{color:rgba(255,255,255,.55);position:relative;z-index:2}
+.data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto;position:relative;z-index:2}
+.data-card{background:rgba(255,255,255,.07);border-radius:20px;padding:40px 24px;text-align:center;border:1px solid rgba(255,255,255,.1)}
+.data-year{font-size:52px;font-weight:900;background:linear-gradient(135deg,var(--green-light),var(--earth-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:"Noto Serif SC",serif;line-height:1.2}
+.data-label{font-size:12px;color:rgba(255,255,255,.4);margin:8px 0 16px;letter-spacing:2px}
+.data-value{font-size:34px;font-weight:700;color:white;margin-bottom:6px}
+.data-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7}
+.biz-img{text-align:center;margin-top:52px;position:relative;z-index:2}
+.biz-img img{max-width:100%;max-height:380px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.25)}
+.cap-card{background:rgba(255,255,255,.06);border-radius:20px;padding:40px;text-align:center;position:relative;z-index:2;margin-top:52px;border:1px solid rgba(255,255,255,.08)}
+.cap-label{font-size:12px;color:rgba(255,255,255,.4);letter-spacing:2px;margin-bottom:12px}
+.cap-value{font-size:56px;font-weight:900;color:white;font-family:"Noto Serif SC",serif}
+.cap-desc{font-size:14px;color:rgba(255,255,255,.5);margin-top:12px;line-height:1.8}
+
+/* ===== TEAM ===== */
+.team-section{background:white}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:960px;margin:0 auto}
+.team-card{text-align:center;padding:32px 16px;border-radius:20px;transition:all .3s;background:var(--cream)}
+.team-card:hover{background:var(--cream-dark);transform:translateY(-3px)}
+.team-avatar,.team-photo{width:68px;height:68px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(135deg,var(--green),var(--earth));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.team-photo img{width:100%;height:100%;object-fit:cover}
+.team-card h4{font-size:15px;font-weight:700;color:var(--earth-dark);margin-bottom:4px;text-align:center}
+.team-card p{font-size:12px;color:var(--text-light);line-height:1.5;text-align:center}
+.mentor-photo{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--earth),var(--earth-light));display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.mentor-photo img{width:100%;height:100%;object-fit:cover}
+.mentor-section{margin-top:52px}
+.mentor-section h3{font-family:"Noto Serif SC",serif;font-size:22px;color:var(--earth-dark);text-align:center;margin-bottom:24px}
+.mentor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:900px;margin:0 auto}
+.mentor-card{display:flex;align-items:center;gap:16px;background:var(--cream);padding:20px;border-radius:16px;transition:all .3s}
+.mentor-card:hover{background:var(--cream-dark)}
+.mentor-avatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--earth),var(--earth-light));display:flex;align-items:center;justify-content:center;font-size:18px;color:white;flex-shrink:0}
+.mentor-info h4{font-size:14px;font-weight:700;color:var(--earth-dark)}
+.mentor-info p{font-size:12px;color:var(--text-light);margin-top:2px;line-height:1.5}
+
+/* ===== PARTNERS ===== */
+.partner-section{background:var(--cream)}
+.partner-logos{display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap}
+.partner-item{text-align:center;padding:24px 36px;background:white;border-radius:16px;box-shadow:0 2px 12px rgba(139,105,20,.06)}
+.partner-item .pi-emoji{font-size:30px;margin-bottom:10px}
+.partner-item .pi-name{font-size:15px;font-weight:700;color:var(--earth-dark);margin-bottom:4px}
+.partner-item p{font-size:12px;color:var(--text-light)}
+
+/* ===== CONTACT / FOOTER ===== */
+.contact-section{background:linear-gradient(135deg,var(--earth-dark) 0%,var(--green-dark) 100%);text-align:center;position:relative;overflow:hidden}
+.contact-section::before{content:"";position:absolute;inset:0;background:url(images/team-photo.jpg) center/cover;opacity:.12}
+.contact-section .section-title{color:white;position:relative;z-index:2}
+.contact-section .section-sub{color:rgba(255,255,255,.55);position:relative;z-index:2}
+.contact-info{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:40px;position:relative;z-index:2}
+.contact-item{background:rgba(255,255,255,.07);padding:20px 28px;border-radius:16px;border:1px solid rgba(255,255,255,.1);min-width:180px}
+.ci-label{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:2px;margin-bottom:6px}
+.ci-value{font-size:15px;color:white;font-weight:500}
+footer{background:#0f1a0a;color:rgba(255,255,255,.3);text-align:center;padding:28px;font-size:13px}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--earth-light);border-radius:3px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:960px){
+.pain-grid,.prod-grid,.adv-grid,.team-grid,.data-grid,.mentor-grid{grid-template-columns:1fr 1fr}
+.stages{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+.nav-links{display:none;position:absolute;top:72px;left:0;right:0;background:rgba(253,246,227,.98);flex-direction:column;padding:20px;gap:16px;border-bottom:2px solid var(--earth-light)}
+.nav-links.active{display:flex}
+.nav-toggle{display:block;color:var(--earth-dark)}
+}
+@media(max-width:600px){
+.pain-grid,.prod-grid,.adv-grid,.team-grid,.data-grid,.mentor-grid,.stages{grid-template-columns:1fr}
+section{padding:60px 16px}
+.hero{padding-top:72px}
+.nav{padding:0 16px}
+.contact-info{gap:16px}
+.contact-item{min-width:140px}
+.team-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+<div class="nav-logo">
+<img src="images/logo-art.png" alt="智绘乡村Logo" onerror="this.style.display='none'">
+<span>智绘乡村</span>
+</div>
+<div class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</div>
+<div class="nav-links">
+<a href="#about">关于我们</a>
+<a href="#solution">解决方案</a>
+<a href="#product">产品服务</a>
+<a href="#team">团队介绍</a>
+<a href="#finance">财务规划</a>
+<a href="#contact">联系我们</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-bg"></div>
+<div class="hero-pattern"></div>
+<div class="hero-inner">
+<div class="hero-badge">2026年挑战杯 · 重庆文理学院</div>
+<h1 class="hero-title">智绘乡村</h1>
+<div class="hero-slogan">AIGC赋能乡村儿童协同策展计划</div>
+<p class="hero-subtitle">
+以儿童为主体，以技术为桥梁，以乡土为课本<br>
+通过AIGC技术辅助与协同策展活动<br>
+释放每一个乡村儿童的创造力，唤醒其对本土文化的自信与自豪
+</p>
+<div class="hero-cta">
+<a href="#about" class="btn btn-primary">了解更多</a>
+<a href="#contact" class="btn btn-outline">联系我们</a>
+</div>
+</div>
+<div class="hero-scroll"></div>
+</section>
+
+<!-- ABOUT -->
+<section class="pain-section" id="about">
+<div class="container">
+<div class="section-label">About Us</div>
+<h2 class="section-title">我们做什么</h2>
+<p class="section-sub">直面乡村美育的三大核心痛点，提供系统化的创新解决方案</p>
+<div class="pain-grid fade-in">
+<div class="pain-card"><div class="pain-icon">📚</div><h3>美育资源匮乏</h3><p>专业师资严重短缺，乡村学校音体美教师缺口高达<strong>37%</strong>，课程"开不齐、开不好"</p></div>
+<div class="pain-card"><div class="pain-icon">🎨</div><h3>表达渠道缺失</h3><p><strong>73%</strong>乡村学校未建立乡土文化资源库，美育教学与儿童生活经验严重分离</p></div>
+<div class="pain-card"><div class="pain-icon">🏡</div><h3>文化传承乏力</h3><p>传统"一次性"支教难以可持续，无法激活乡村社区的文化内生动力</p></div>
+</div>
+</div>
+</section>
+
+<!-- SOLUTION -->
+<section class="sol-section" id="solution">
+<div class="container">
+<div class="section-label">Our Solution</div>
+<h2 class="section-title">四阶段协同策展工作流</h2>
+<p class="section-sub" style="color:rgba(255,255,255,.55)">以"协同策展"参与式美育模式，激活乡村儿童的文化创造力</p>
+<div class="sol-overview fade-in">
+<h3>核心技术公式</h3>
+<p><strong style="color:#7CB342">AIGC</strong> 作为创作赋能工具 + <strong style="color:#C4A35A">协同策展</strong> 作为社会性学习框架 + <strong style="color:#fff">乡土文化</strong> 作为内容母体</p>
+</div>
+<div class="stages fade-in">
+<div class="stage-card"><div class="stage-num">1</div><img src="images/stage1.png" alt="灵感共创" onerror="this.style.display='none'"><div class="stage-info"><h4>灵感共创</h4><p>引导儿童挖掘本地文化故事与社区环境，共同确定策展主题，唤醒文化自信</p></div></div>
+<div class="stage-card"><div class="stage-num">2</div><img src="images/stage2.png" alt="内容生成" onerror="this.style.display='none'"><div class="stage-info"><h4>内容生成</h4><p>运用AIGC作为"创意伙伴"辅助创作，降低门槛，让每个孩子都能成为创作者</p></div></div>
+<div class="stage-card"><div class="stage-num">3</div><img src="images/stage3.png" alt="空间转译" onerror="this.style.display='none'"><div class="stage-info"><h4>空间转译</h4><p>与儿童共同策划展览动线，利用乡村本地材料与闲置空间，完成展览布置</p></div></div>
+<div class="stage-card"><div class="stage-num">4</div><img src="images/stage4.png" alt="社区连接" onerror="this.style.display='none'"><div class="stage-info"><h4>社区连接</h4><p>举办社区展览开幕式，培训儿童担任小小导览员，扩大影响力形成闭环</p></div></div>
+</div>
+<div class="timeline-img fade-in">
+<img src="images/timeline.png" alt="四阶段时间线" onerror="this.style.display='none'">
+</div>
+</div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="prod-section" id="product">
+<div class="container">
+<div class="section-label">Products</div>
+<h2 class="section-title">产品与服务</h2>
+<p class="section-sub">标准化、产品化的"AIGC美育工具包"系列，满足不同客户需求</p>
+<div class="prod-grid fade-in">
+<div class="prod-card">
+<div class="prod-tag">入门</div>
+<img src="images/toolkit-scene.jpg" alt="基础版" class="prod-img" onerror="this.style.background='var(--earth-light)'">
+<div class="prod-info"><h3>基础版</h3><p class="desc">适用于单个班级尝试，零门槛启动AIGC美育体验</p><ul class="prod-list"><li>核心课程教案（4课时）</li><li>AIGC使用指南与提示词卡片</li><li>乡土灵感素材数字包</li><li>基础创作材料包</li></ul></div>
+</div>
+<div class="prod-card">
+<div class="prod-tag pop">推荐</div>
+<img src="images/toolkit-product.png" alt="学校版" class="prod-img" onerror="this.style.background='var(--green)'">
+<div class="prod-info"><h3>学校版</h3><p class="desc">适用于全校推广，提供"开箱即用"的校本课程解决方案</p><ul class="prod-list"><li>标准化课程模块（16-32课时）</li><li>教师赋能手册与评价体系</li><li>班级策展套装与布展方案</li><li>数字资源平台年费</li></ul></div>
+</div>
+<div class="prod-card">
+<div class="prod-tag">定制</div>
+<img src="images/toolkit-architecture.jpg" alt="社区版" class="prod-img" onerror="this.style.background='var(--blue)'">
+<div class="prod-info"><h3>社区版</h3><p class="desc">面向县/乡文旅局、公益基金会，提供整体服务</p><ul class="prod-list"><li>大型活动策划方案</li><li>高级本土文化数字档案</li><li>专业布展与传播套件</li><li>美育协作员培训认证</li></ul></div>
+</div>
+</div>
+<div class="adv-grid fade-in">
+<div class="adv-card"><div class="adv-icon">🤖</div><h3>技术赋能优势</h3><p>AIGC作为"创意伙伴"而非炫技工具，降低创作门槛，这是传统模式不具备的</p></div>
+<div class="adv-card"><div class="adv-icon">👦</div><h3>主体性优势</h3><p>四阶段协同策展确保儿童全面参与，成为真正的策展主导者，而非被动参与者</p></div>
+<div class="adv-card"><div class="adv-icon">🏡</div><h3>文化内生优势</h3><p>坚持从乡土资源汲取灵感并反馈社区，形成"在地造血"闭环，建立深厚社区认同</p></div>
+</div>
+</div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section" id="team">
+<div class="container">
+<div class="section-label">Our Team</div>
+<h2 class="section-title">核心团队</h2>
+<p class="section-sub">跨学科背景，涵盖视觉传达、环境设计、学前教育、应用心理学等专业</p>
+<div class="team-grid fade-in">
+<div class="team-card"><div class="team-photo"><img src="images/member-guan-yilin.png" alt="关一林" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--green),var(--earth))';this.parentElement.innerHTML='<span style=color:white;font-size:24px;font-weight:700>关</span>'"></div><h4>关一林</h4><p>项目创始人/总负责人<br>设计专业研究生</p></div>
+<div class="team-card"><div class="team-photo"><img src="images/member-huang-dan.png" alt="黄丹" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--green),var(--earth))';this.parentElement.innerHTML='<span style=color:white;font-size:24px;font-weight:700>黄</span>'"></div><h4>黄丹</h4><p>本土非遗文化转化<br>环境设计专业</p></div>
+<div class="team-card"><div class="team-photo"><img src="images/member-chen-yue.png" alt="陈悦" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--green),var(--earth))';this.parentElement.innerHTML='<span style=color:white;font-size:24px;font-weight:700>陈</span>'"></div><h4>陈悦</h4><p>课程研发与视觉设计<br>视觉传达研究生</p></div>
+<div class="team-card"><div class="team-photo"><img src="images/member-liao-xin.png" alt="廖鑫" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--green),var(--earth))';this.parentElement.innerHTML='<span style=color:white;font-size:24px;font-weight:700>廖</span>'"></div><h4>廖鑫</h4><p>环境设计负责人<br>环境设计专业</p></div>
+<div class="team-card"><div class="team-photo"><img src="images/member-li-yifei.png" alt="李亦霏" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--green),var(--earth))';this.parentElement.innerHTML='<span style=color:white;font-size:24px;font-weight:700>李</span>'"></div><h4>李亦霏</h4><p>环境设计负责人<br>环境设计专业</p></div>
+<div class="team-card"><div class="team-photo"><img src="images/member-wang-ya.png" alt="王雅" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--green),var(--earth))';this.parentElement.innerHTML='<span style=color:white;font-size:24px;font-weight:700>王</span>'"></div><h4>王雅</h4><p>儿童发展评估专家<br>学前教育专业</p></div>
+<div class="team-card"><div class="team-photo"><img src="images/member-tian-lijuan.png" alt="田丽娟" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--green),var(--earth))';this.parentElement.innerHTML='<span style=color:white;font-size:24px;font-weight:700>田</span>'"></div><h4>田丽娟</h4><p>应用心理学研究员<br>应用心理学专业</p></div>
+</div>
+<div class="mentor-section fade-in">
+<h3>学术指导委员会</h3>
+<div class="mentor-grid">
+<div class="mentor-card"><div class="mentor-photo"><img src="images/mentor-huang-yi.png" alt="黄艺" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--earth),var(--earth-light))';this.parentElement.innerHTML='<span style=color:white;font-size:18px;font-weight:700>黄</span>'"></div><div class="mentor-info"><h4>黄艺 教授</h4><p>城乡可持续创新设计研究中心负责人<br>城乡空间设计与乡村振兴</p></div></div>
+<div class="mentor-card"><div class="mentor-photo"><img src="images/mentor-yuan-jingyi.png" alt="袁菁嶷" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--earth),var(--earth-light))';this.parentElement.innerHTML='<span style=color:white;font-size:18px;font-weight:700>袁</span>'"></div><div class="mentor-info"><h4>袁菁嶷</h4><p>师范学院讲师<br>儿童美育研究与实践专家</p></div></div>
+<div class="mentor-card"><div class="mentor-photo"><img src="images/mentor-le-hua.png" alt="乐华" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--earth),var(--earth-light))';this.parentElement.innerHTML='<span style=color:white;font-size:18px;font-weight:700>乐</span>'"></div><div class="mentor-info"><h4>乐华 副教授</h4><p>重庆对外经贸学院环境设计系主任<br>环境设计专家</p></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FINANCE -->
+<section class="data-section" id="finance">
+<div class="container">
+<div class="section-label">Finance</div>
+<h2 class="section-title">财务规划</h2>
+<p class="section-sub">三年稳健发展，第二年实现盈利</p>
+<div class="data-grid fade-in">
+<div class="data-card"><div class="data-year">2026</div><div class="data-label">验证期</div><div class="data-value">¥0</div><div class="data-desc">聚焦模式验证<br>研发投入 ¥4,000</div></div>
+<div class="data-card"><div class="data-year">2027</div><div class="data-label">启动期</div><div class="data-value">¥35,000</div><div class="data-desc">拓展3-5个合作点<br>净利润 ¥7,000</div></div>
+<div class="data-card"><div class="data-year">2028</div><div class="data-label">发展期</div><div class="data-value">¥80,000</div><div class="data-desc">多区县初步推广<br>净利润 ¥25,000</div></div>
+</div>
+<div class="biz-img fade-in">
+<img src="images/business-model.jpg" alt="商业模式" onerror="this.style.display='none'">
+</div>
+<div class="cap-card fade-in">
+<div class="cap-label">启动资金需求</div>
+<div class="cap-value">¥50,000</div>
+<div class="cap-desc">产品研发与标准化试产 ¥20,000 · 市场验证与试点拓展 ¥20,000 · 品牌与基础运营 ¥10,000</div>
+</div>
+</div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partner-section">
+<div class="container">
+<div class="section-label">Partners</div>
+<h2 class="section-title">合作伙伴</h2>
+<div class="partner-logos fade-in">
+<div class="partner-item"><div class="pi-emoji">🎓</div><div class="pi-name">重庆文理学院</div><p>项目孵化单位</p></div>
+<div class="partner-item"><div class="pi-emoji">🏫</div><div class="pi-name">青峰小学</div><p>试点合作学校</p></div>
+<div class="partner-item"><div class="pi-emoji">🌾</div><div class="pi-name">重庆市永川区</div><p>试点合作地区</p></div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+<div class="container">
+<div class="section-label">Contact</div>
+<h2 class="section-title">联系我们</h2>
+<p class="section-sub">期待与您共同探索乡村美育的创新之路</p>
+<div class="contact-info fade-in">
+<div class="contact-item"><div class="ci-label">项目负责人</div><div class="ci-value">关一林</div></div>
+<div class="contact-item"><div class="ci-label">所属学院</div><div class="ci-value">文化传播与设计学院</div></div>
+<div class="contact-item"><div class="ci-label">参赛学校</div><div class="ci-value">重庆文理学院</div></div>
+<div class="contact-item"><div class="ci-label">赛道类别</div><div class="ci-value">乡村振兴和农业农村现代化</div></div>
+</div>
+</div>
+</section>
+
+<footer>
+<p>© 2026 智绘乡村 — AIGC赋能乡村儿童协同策展计划 | 重庆文理学院</p>
+</footer>
+
+<script>
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible")}})},{threshold:0.1})
+document.querySelectorAll(".fade-in").forEach(el=>observer.observe(el))
+</script>
+</body>
+</html>
